@@ -1,0 +1,235 @@
+<html><head><base href="https://buildy.tw/tools/ai-writty/">
+<title>WrittY AI - Prompt Builder</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="WrittY AI | Prompt Builder - Your perfect tool for creating accurate instructions">
+<link rel="icon" type="image/svg" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzOWM1ZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1wZW4tdG9vbCI+PHBhdGggZD0iTTE1LjcwNyAyMS4yOTNhMSAxIDAgMCAxLTEuNDE0IDBsLTEuNTg2LTEuNTg2YTEgMSAwIDAgMSAwLTEuNDE0bDUuNTg2LTUuNTg2YTEgMSAwIDAgMSAxLjQxNCAwbDEuNTg2IDEuNTg2YTEgMSAwIDAgMSAwIDEuNDE0eiIvPjxwYXRoIGQ9Im0xOCAxMy0xLjM3NS02Ljg3NGExIDEgMCAwIDAtLjc0Ni0uNzc2TDMuMjM1IDIuMDI4YTEgMSAwIDAgMC0xLjIwNyAxLjIwN0w1LjM1IDE1Ljg3OWExIDEgMCAwIDAgLjc3Ni43NDZMMTMgMTgiLz48cGF0aCBkPSJtMi4zIDIuMyA3LjI4NiA3LjI4NiIvPjxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjIiLz48L3N2Zz4=" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          100: "#e0f2fe",
+          600: "#0284c7",
+          700: "#0369a1",
+        },
+        secondary: '#4B5DFF',
+        sky: {
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          600: '#0284c7',
+          700: '#0369a1',
+        },
+        slate: {
+          900: '#0f172a',
+        }
+      },
+    },
+    fontFamily: {
+      sans: ["Nunito", "sans-serif"],
+    },
+  },
+};
+</script>
+<style>
+  #tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    min-height: 42px;
+  }
+
+  #topic-input {
+    flex: 1;
+    min-width: 50px;
+    border: none;
+    outline: none;
+    padding: 0.25rem;
+    background-color: transparent;
+  }
+</style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans transition-colors duration-200">
+<div class="flex h-screen">
+  <aside id="sidebar" class="sidebar w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 p-4 fixed h-full z-30 md:relative md:translate-x-0">
+    <div class="text-lg font-semibold mb-6 flex items-center">
+      <i data-lucide="pen-tool" stroke-width="2.5" class="text-sky-600 dark:text-sky-100 w-5 h-5 mr-1"></i>
+      Writt<span class="text-sky-600 mr-1">Y</span> AI
+    </div>
+    <nav>
+      <ul class="space-y-2">
+        <li>
+          <a href="#" class="block px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-sm">
+            <i data-lucide="book-open" class="text-sky-600 dark:text-sky-100 w-4 h-4 mb-1 mr-1 inline"></i>
+            Documentation
+          </a>
+        </li>
+        <li>
+          <a href="#" class="block px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-sm text-sky-600 dark:text-slate-200 bg-sky-100 dark:bg-slate-700">
+            <i data-lucide="notebook-pen" class="text-sky-600 dark:text-sky-100 w-4 h-4 mb-1 mr-1 inline"></i>
+            Prompt Builder
+          </a>
+        </li>
+        <li>
+          <a href="#" class="block px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-sm">
+            <i data-lucide="bot" class="text-sky-600 dark:text-sky-100 w-4 h-4 mb-1 mr-1 inline"></i>
+            AI Assistant
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="flex-1 flex flex-col overflow-hidden bg-slate-100 dark:bg-slate-900">
+    <header class="sticky top-0 z-10 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-3 flex justify-between items-center">
+      <button id="sidebar-toggle" class="md:hidden">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+      <h2 class="text-base font-semibold">Prompt Builder</h2>
+      <div class="flex items-center space-x-2">
+        <button id="import-btn" class="text-xs bg-sky-600 hover:bg-sky-700 text-white py-1 px-4 rounded-lg">
+          Import
+        </button>
+        <button id="export-btn" class="text-xs bg-sky-600 hover:bg-sky-700 text-white py-1 px-4 rounded-lg">
+          Export
+        </button>
+        <button id="dark-mode-toggle">
+          <i data-lucide="sun" class="w-5 h-5 ms-2"></i>
+        </button>
+      </div>
+    </header>
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+      <div class="max-w-full mx-auto mt-8">
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Generate AI-powered Prompt</h3>
+            <button id="generate-btn" class="bg-sky-600 hover:bg-sky-700 text-white py-2 px-4 rounded-lg text-sm">
+              Get Prompt
+            </button>
+          </div>
+          <div class="mb-4">
+            <div class="flex border-b border-gray-200">
+              <button class="py-2 px-4 text-sm font-medium text-sky-600 border-b-2 border-sky-600" id="tab-content">Content</button>
+              <button class="py-2 px-4 text-sm font-medium text-gray-500 hover:text-gray-700" id="tab-recommendations">Recommendations</button>
+              <button class="py-2 px-4 text-sm font-medium text-gray-500 hover:text-gray-700" id="tab-settings">Settings</button>
+            </div>
+          </div>
+          <div id="content-tab" class="space-y-4">
+            <div class="relative">
+              <label for="topic-input" class="block mb-2 text-sm font-medium">Topic or Keywords</label>
+              <div id="tags-container" class="flex flex-wrap items-center p-2 border-none rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white outline-none">
+                <input type="text" id="topic-input" class="flex-grow outline-none bg-transparent dark:text-white" placeholder="Enter your topic or keywords">
+              </div>
+            </div>
+            <div>
+              <label for="prompt" class="block mb-2 text-sm font-medium">Prompt</label>
+              <textarea id="prompt" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700" rows="3" placeholder="Enter your prompt here"></textarea>
+            </div>
+            <div>
+              <label for="system" class="block mb-2 text-sm font-medium">System</label>
+              <textarea id="system" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700" rows="3" placeholder="Enter system instructions here"></textarea>
+            </div>
+            <div>
+              <label for="promptTypes" class="block mb-2 text-sm font-medium">Prompt Type</label>
+              <select id="promptTypes" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700">
+                <option value="">Select a prompt type</option>
+                <option value="advisor">Advisor</option>
+                <option value="editor">Editor</option>
+                <option value="writer">Writer</option>
+                <option value="researcher">Researcher</option>
+                <option value="translator">Translator</option>
+                <option value="summarizer">Summarizer</option>
+                <option value="analyst">Analyst</option>
+                <option value="instructor">Instructor</option>
+                <option value="coder">Coder</option>
+                <option value="naming">Naming</option>
+              </select>
+            </div>
+            <div id="promptTypeFields" class="space-y-4 hidden">
+            </div>
+          </div>
+          <div id="recommendations-tab" class="space-y-4 hidden">
+            <div>
+              <label for="mainTask" class="block mb-2 text-sm font-medium">Main Task</label>
+              <input type="text" id="mainTask" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700">
+            </div>
+            <div>
+              <label for="audience" class="block mb-2 text-sm font-medium">Audience</label>
+              <input type="text" id="audience" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700">
+            </div>
+            <div>
+              <label for="goal" class="block mb-2 text-sm font-medium">Goal</label>
+              <input type="text" id="goal" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700">
+            </div>
+            <div>
+              <label for="confidentialityLevel" class="block mb-2 text-sm font-medium">Confidentiality Level</label>
+              <input type="text" id="confidentialityLevel" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700">
+            </div>
+            <div>
+              <label for="iterationGuidelines" class="block mb-2 text-sm font-medium">Iteration Guidelines</label>
+              <textarea id="iterationGuidelines" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700" rows="3"></textarea>
+            </div>
+          </div>
+          <div id="settings-tab" class="space-y-4 hidden">
+            <div class="grid grid-cols-4 gap-4">
+              <div>
+                <label for="content-type" class="block mb-2 text-sm font-medium">Content Type</label>
+                <select id="content-type" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700">
+                  <option value="blog-post">Blog Post</option>
+                  <option value="social-media">Social Media Post</option>
+                  <option value="product-description">Product Description</option>
+                  <option value="email">Email</option>
+                </select>
+              </div>
+              <div>
+                <label for="tone" class="block mb-2 text-sm font-medium">Tone</label>
+                <select id="tone" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700">
+                  <option value="professional">Professional</option>
+                  <option value="casual">Casual</option>
+                  <option value="humorous">Humorous</option>
+                  <option value="inspirational">Inspirational</option>
+                </select>
+              </div>
+              <div>
+                <label for="length" class="block mb-2 text-sm font-medium">Length (words)</label>
+                <input type="number" id="length" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700" min="50" max="1000" value="300">
+              </div>
+              <div>
+                <label for="format" class="block mb-2 text-sm font-medium">Output Format</label>
+                <select id="format" class="w-full p-2 border rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700">
+                  <option value="markdown">Markdown</option>
+                  <option value="raw">Raw</option>
+                  <option value="prose">Prose (Tailwind)</option>
+                  <option value="html">HTML</option>
+                  <option value="text">Plain Text</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="result" class="mt-8 bg-white dark:bg-slate-800 rounded-lg shadow p-6 hidden">
+          <h3 class="text-lg font-semibold mb-4">Generated Copy</h3>
+          <div id="generated-content" class="prose dark:prose-invert max-w-none"></div>
+          <div class="mt-4 flex justify-end">
+            <button id="copy-btn" class="bg-sky-600 hover:bg-sky-700 text-white py-2 px-4 rounded-lg text-sm mr-2">
+              Copy to Clipboard
+            </button>
+            <button id="reset-btn" class="bg-secondary hover:bg-secondary-dark text-white py-2 px-4 rounded-lg text-sm">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+  <script src="script.js"></script>
+</body>
+</html>
